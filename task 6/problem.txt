@@ -1,0 +1,43 @@
+class Solution(object):
+    def sampleStats(self, count):
+        min_num = float('inf')
+        max_num = -1
+        total_count = 0
+        total_sum = 0
+        mode_freq = 0
+        mode = -1
+
+        for i in range(len(count)):
+            if count[i] > 0:
+                min_num = min(min_num, i)
+                max_num = max(max_num, i)
+                total_count += count[i]
+                total_sum += i * count[i]
+                if count[i] > mode_freq:
+                    mode_freq = count[i]
+                    mode = i
+
+        mean = total_sum / float(total_count)
+
+        mid = total_count // 2
+        if total_count % 2 == 0:
+            mid1 = None
+            mid2 = None
+            count_sum = 0
+            for i in range(len(count)):
+                count_sum += count[i]
+                if mid1 is None and count_sum >= mid:
+                    mid1 = i
+                if mid2 is None and count_sum >= mid + 1:
+                    mid2 = i
+                    break
+            median = (mid1 + mid2) / 2.0
+        else:
+            count_sum = 0
+            for i in range(len(count)):
+                count_sum += count[i]
+                if count_sum > mid:
+                    median = i
+                    break
+
+        return [float(min_num), float(max_num), mean, float(median), float(mode)]
